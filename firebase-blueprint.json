@@ -1,0 +1,134 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["CUSTOMER", "DEVELOPER", "ADMIN"] },
+        "location": { "type": "string" },
+        "languages": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Marketplace product asset",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "rating": { "type": "number" },
+        "reviewCount": { "type": "number" },
+        "image": { "type": "string", "format": "uri" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "slug", "price", "image"]
+    },
+    "Listing": {
+      "title": "Listing",
+      "description": "Developer marketplace listing",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "fullDescription": { "type": "string" },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "whatsIncluded": { "type": "string" },
+        "whoItsFor": { "type": "string" },
+        "price": { "type": "number" },
+        "basicPrice": { "type": "number" },
+        "extendedPrice": { "type": "number" },
+        "hasExtended": { "type": "boolean" },
+        "techStack": { "type": "string" },
+        "category": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "demoUrl": { "type": "string", "format": "uri" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "downloadUrl": { "type": "string", "format": "uri" },
+        "authorId": { "type": "string" },
+        "status": { "type": "string", "enum": ["Pending", "Approved"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "shortDescription", "fullDescription", "basicPrice", "category", "authorId", "status"]
+    },
+    "Activity": {
+      "title": "Activity",
+      "description": "Business activity event",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["sale", "message", "system"] },
+        "developerId": { "type": "string" },
+        "listingId": { "type": "string" },
+        "message": { "type": "string" },
+        "metadata": { "type": "object" },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["type", "developerId", "message", "isRead", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Product listing comment or question",
+      "type": "object",
+      "properties": {
+        "listingId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "message": { "type": "string" },
+        "parentId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["listingId", "userId", "message", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase record",
+      "type": "object",
+      "properties": {
+        "listingId": { "type": "string" },
+        "listingTitle": { "type": "string" },
+        "developerId": { "type": "string" },
+        "buyerId": { "type": "string" },
+        "buyerEmail": { "type": "string" },
+        "price": { "type": "number" },
+        "licenseType": { "type": "string", "enum": ["basic", "extended"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["listingId", "developerId", "buyerId", "price", "licenseType", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile collection"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Marketplace products collection"
+    },
+    "/listings/{listingId}": {
+      "schema": "Listing",
+      "description": "Developer listings collection"
+    },
+    "/activity/{activityId}": {
+      "schema": "Activity",
+      "description": "Activity feed collection"
+    },
+    "/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments and replies collection"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Orders for revenue tracking"
+    }
+  }
+}
